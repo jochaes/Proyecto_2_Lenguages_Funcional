@@ -1,0 +1,48 @@
+# Xamarin.Android and Xamarin.iOS specific
+*.apk
+*.aab
+*.ipa
+*.app
+*.xcarchive
+*.dSYM.zip
+*.dSYM
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio files
+*.userprefs
+*.usertasks
+*.suo
+*.user
+*.psess
+*.vs/
+*.vstemplate
+*.csproj.user
+*.sln.ide
+*.sln.dotsettings.user
+*.sln.docstates
+
+# Rider files
+.idea/
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+*.nuget/
+packages/
+*.nupkg
+*.snupkg
+
+# Miscellaneous
+[Tt]humbs.db
+desktop.ini
