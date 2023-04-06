@@ -31,6 +31,7 @@ type MainActivity() =
         base.OnCreate(bundle)
         Xamarin.Essentials.Platform.Init(this, bundle)
         Xamarin.Forms.Forms.Init(this, bundle)
+
         this.LoadApplication(Program.startApplication App.program)
 
     override this.OnRequestPermissionsResult(requestCode: int, permissions: string[], [<GeneratedEnum>] grantResults: Android.Content.PM.Permission[]) =

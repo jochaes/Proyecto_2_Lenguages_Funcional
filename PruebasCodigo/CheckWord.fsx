@@ -9,9 +9,9 @@
                 
 
 // let objetivo = ['c';'a';'s';'a']
-// let objetivo2 = ['c';'a';'m';'a']
-// let objetivo3 = ['m';'a';'s';'a']
-// let objetivo4 = ['y';'o']
+// let objetivo1 = ['c';'a';'m';'a']
+// let objetivo2 = ['m';'a';'s';'a']
+// let objetivo3 = ['y';'o']
 
 
 let palabras = [['O'; 'Q'; 'P'; 'L'; 'C']
@@ -54,7 +54,7 @@ let miembro e lista =
     Si alguno de los índices es mayor o igual a la longitud de la matriz en la 
     dimensión correspondiente, la función devuelve el carácter '_' como valor predeterminado.
 *)
-let getElement i j (matrix: _ list list)=
+let getElement i j (matrix: char list list)=
     if matrix.Length > i then
         if matrix[i].Length > j then
             matrix[i][j]
@@ -75,7 +75,7 @@ let getElement i j (matrix: _ list list)=
     devuelve (-1,-1).
 *)
 let rec findFirstLetterPosition (i:int) (j:int) (letter:char) (matrix: _ list list) =    
-    printfn "Buscar Letra: (%d,%d)" i j
+    //printfn "Buscar Letra: (%d,%d)" i j
 
     if matrix[i][j] = letter then
         (i,j)
@@ -96,8 +96,8 @@ let rec findFirstLetterPosition (i:int) (j:int) (letter:char) (matrix: _ list li
 *)
 let vecinos_aux (posicion: (int*int)) (matrix: _ list list) =
     let i,j = fst(posicion),snd(posicion)
-    printfn "Posicion: (%d,%d)" i j
-    printfn  "Vecinos: %A" [(i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1); (i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1)]
+    //printfn "Posicion: (%d,%d)" i j
+    //printfn  "Vecinos: %A" [(i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1); (i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1)]
     //left, upper_left_corner, up , upper_right_corner, right, lower_right_corner, down, lower_left_corner
     [(i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1); (i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1)]
 
@@ -129,7 +129,7 @@ let vecinos (posicion: (int*int)) (matrix: _ list list) =
     para obtener una nueva lista de posiciones.
 *)
 let extender (ruta: _ list) (matrix: _ list list) =
-    printfn "Extender: %A" ruta
+    //printfn "Extender: %A" ruta
     (vecinos ruta.Head matrix)
     |> List.map (fun x -> if (miembro x ruta) then [] else x::ruta)
     |> List.filter (fun x -> x <> [])
@@ -141,11 +141,13 @@ let extender (ruta: _ list) (matrix: _ list list) =
     posición (i,j) de la matriz es igual a needed.
 *)
 let verificarCorrespondencia (posicion:(int*int)) needed (matrix: _ list list) =
+    // printfn "Needed: %A" needed
+    // printfn "Elemento: %A" (getElement (fst(posicion)) (snd(posicion)) matrix)
+
     if (getElement (fst(posicion)) (snd(posicion)) matrix) = needed then
         true
     else
         false
-
 (*
     La función prof_aux es la implementación de la búsqueda en profundidad. 
     Toma una lista de rutas, una posición de origen, un objetivo, un índice y 
@@ -157,25 +159,27 @@ let verificarCorrespondencia (posicion:(int*int)) needed (matrix: _ list list) =
     Si no hay más rutas en la lista, la búsqueda falla y devuelve una lista vacía.
 *)
 let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matrix: _ list list) =
+    printfn "\nRutas: \n%A" rutas.Head
     if rutas = [] then
         []
-    elif rutas.Head.Length = goal.Length then
+    elif (rutas.Head.Length = goal.Length)  then
         List.rev rutas.Head
+
         (*List.append
         ([List.rev rutas.Head])
         (prof_aux rutas.Tail
              (findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix) 
              goal 0 matrix)*)
+
     elif (verificarCorrespondencia rutas.Head.Head (goal[index]) matrix) then
         prof_aux (List.append (extender rutas.Head matrix) rutas.Tail) origin goal (index+1) matrix
     else
         if snd(rutas.Head.Head) < matrix[0].Length then
-            printfn "Posicion Buscar Letra1: (%d,%d)" (fst(origin)) (snd(origin)+1)
+            printfn "Siguiente letra: %A" 
             prof_aux [[findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix]]
                 (findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix)
                 goal 0 matrix
         else
-            printfn "Posicion Buscar Letra2: (%d,%d)" (fst(origin)+1) 0
             prof_aux [[findFirstLetterPosition (fst(origin)+1) 0 goal[0] matrix]]
                 (findFirstLetterPosition (fst(origin)+1) 0 goal[0] matrix)
                 goal 0 matrix
@@ -188,13 +192,20 @@ let prof (goal:char list) (matrix: _ list list) =
     let posicionArranque = findFirstLetterPosition 0 0 goal[0] matrix
     prof_aux [[posicionArranque]] posicionArranque goal 0 matrix
 
-//Pan
-//printfn "%A" (prof objetivo palabras)
-// //Patio
+
+
+
+//Pan - CASA
+printfn "%A" (prof objetivo palabras)
+
+// //Patio - Cama
 printfn "%A" (prof objetivo1 palabras)
-// //Casa
+
+// //Casa -  MASA
 // printfn "%A" (prof objetivo2 palabras)
-// //Alma
+
+// //Alma - YO
 //printfn "%A" (prof objetivo3 palabras)
+
 // //Tel
 //printfn "%A" (prof objetivo4 palabras)
