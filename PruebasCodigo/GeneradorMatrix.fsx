@@ -1,5 +1,5 @@
 let generateWordSearch(words: string list) =
-    let gridSize = 5
+    let gridSize = 10
     let rand = System.Random()
     let directionVectors = [(0, 1); (1, 0); (1, 1); (0, -1); (-1, 0); (-1, -1); (-1, 1); (1, -1)]
     let matrix = Array2D.create gridSize gridSize ' '
@@ -33,7 +33,7 @@ let generateWordSearch(words: string list) =
     matrix
 
 
-let words = ["alma"; "patio"; "casa";"tel"]
+let words = ["ALMA"; "PATIO"; "CASA";"TELEFONO"]
 let matrix = generateWordSearch words
 printfn "%A" matrix
 

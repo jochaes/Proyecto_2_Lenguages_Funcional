@@ -14,19 +14,34 @@
 // let objetivo3 = ['y';'o']
 
 
-let palabras = [['O'; 'Q'; 'P'; 'L'; 'C']
-                ['I'; 'A'; 'E'; 'N'; 'A']
-                ['T'; 'T'; 'M'; 'M'; 'S']
-                ['A'; 'A'; 'J'; 'L'; 'A']
-                ['P'; 'A'; 'N'; 'U'; 'A']]
+// let palabras = [['O'; 'Q'; 'P'; 'L'; 'C']
+//                 ['I'; 'A'; 'E'; 'N'; 'A']
+//                 ['T'; 'T'; 'M'; 'M'; 'S']
+//                 ['A'; 'J'; 'J'; 'L'; 'A']
+//                 ['P'; 'A'; 'N'; 'U'; 'A']]
+// //PAN
+// let objetivo = ['P'; 'A'; 'N']
+// let objetivo1 = ['P'; 'A'; 'T'; 'I'; 'O']
+// let objetivo2 = ['C'; 'A'; 'S'; 'A']
+// let objetivo3 = ['A'; 'L'; 'M'; 'A']
+// let objetivo4 = ['T'; 'E'; 'L']                
+
+let palabras = [['O'; 'N'; 'O'; 'F'; 'E'; 'L'; 'E'; 'T'; 'T'; 'Y']
+                ['M'; 'R'; 'V'; 'V'; 'F'; 'V'; 'A'; 'F'; 'X'; 'D']
+                ['P'; 'L'; 'M'; 'P'; 'X'; 'F'; 'L'; 'C'; 'I'; 'O']
+                ['D'; 'C'; 'R'; 'O'; 'N'; 'F'; 'M'; 'A'; 'U'; 'U']
+                ['C'; 'J'; 'L'; 'B'; 'Y'; 'F'; 'A'; 'B'; 'E'; 'W']
+                ['L'; 'Z'; 'D'; 'A'; 'Y'; 'J'; 'G'; 'D'; 'O'; 'U']
+                ['C'; 'X'; 'H'; 'T'; 'D'; 'A'; 'U'; 'I'; 'T'; 'D']
+                ['J'; 'U'; 'C'; 'W'; 'S'; 'C'; 'T'; 'I'; 'M'; 'A']
+                ['I'; 'W'; 'G'; 'A'; 'R'; 'A'; 'M'; 'I'; 'G'; 'D']
+                ['J'; 'S'; 'C'; 'H'; 'P'; 'O'; 'C'; 'J'; 'X'; 'N']]
 //PAN
-let objetivo = ['P'; 'A'; 'N']
+
 let objetivo1 = ['P'; 'A'; 'T'; 'I'; 'O']
 let objetivo2 = ['C'; 'A'; 'S'; 'A']
 let objetivo3 = ['A'; 'L'; 'M'; 'A']
-let objetivo4 = ['T'; 'E'; 'L']                
-
-
+let objetivo4 = ['T'; 'E'; 'L';'E';'F';'O';'N';'O']        
 
 
 (*
@@ -150,9 +165,9 @@ let verificarCorrespondencia (posicion:(int*int)) needed (matrix: _ list list) =
         false
 
 //Una funcion que verifique que todos los elementos de una lista de caracteres esten en otra lista de caracteres
-let  verificarPalabra (listaA: _ list) (listaB: _ list) =
+let  verificarPalabra (listaA: _ list) (listaB: _ list)  (matrix: _ list list)=
   let A = List.sort listaA
-  let B = List.sort listaB
+  let B = List.sort ( List.map (fun x -> getElement (fst(x)) (snd(x)) matrix) listaB)
   List.forall2 (fun elem1 elem2 -> elem1 = elem2) A B
   
 
@@ -167,11 +182,11 @@ let  verificarPalabra (listaA: _ list) (listaB: _ list) =
     Si no hay más rutas en la lista, la búsqueda falla y devuelve una lista vacía.
 *)
 let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matrix: _ list list) =
-    printfn "\nRutas: \n%A" rutas
-    
+    //printfn "\nRutas: %A" rutas
+
     //Si rutas es vacio entonces busca otra posicion de inicio
     if rutas = [] then
-        printfn "No hay mas rutas"
+        //printfn "No hay mas rutas"
         if snd(origin) < matrix[0].Length then
                     prof_aux [[findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix]]
                         (findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix)
@@ -185,7 +200,7 @@ let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matr
     elif (fst(rutas.Head.Head) = -1) && (snd(rutas.Head.Head) = -1) then
       []
     //Si el tamaño de la ruta es igual al tamaño del objetivo entonces retorna la ruta
-    elif (rutas.Head.Length = goal.Length)  then
+    elif (rutas.Head.Length = goal.Length) && (verificarPalabra goal rutas.Head matrix) then
         List.rev rutas.Head
 
         (*List.append
@@ -196,8 +211,11 @@ let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matr
 
     //Si la posicion actual es igual a la letra del objetivo entonces sigue buscando por esa ruta
     elif (verificarCorrespondencia rutas.Head.Head (goal[index]) matrix) then
+        //printfn "buscando %A" goal[(index)]
         prof_aux (List.append (extender rutas.Head matrix) rutas.Tail) origin goal (index+1) matrix
     else
+        //printfn "buscando %A" goal[(index)]
+        //prof_aux (List.append (extender rutas.Head matrix) rutas.Tail) origin goal (index) matrix
         prof_aux rutas.Tail origin goal index matrix
 
 (*
@@ -209,22 +227,21 @@ let prof (goal:char list) (matrix: _ list list) =
     prof_aux [[posicionArranque]] posicionArranque goal 0 matrix
 
 
-//Pan - CASA
-//printfn "%A" (prof objetivo palabras)
-
-// //Patio - Cama
-//printfn "%A" (prof objetivo1 palabras)
-
-// //Casa -  MASA
-//printfn "%A" (prof objetivo2 palabras)
-
-// //Alma - YO
-//printfn "%A" (prof objetivo3 palabras)
-
-// //Tel
-//printfn "%A" (prof objetivo4 palabras)
 
 
-let OMG1 = ['a';'b';'c';'d']
-let OMG2 = ['d';'c';'a';'g']
-printfn "%b" (verificarPalabra OMG1 OMG2)
+//Patio - Cama
+printfn "%A" (prof objetivo1 palabras)
+
+//Casa -  MASA
+printfn "%A" (prof objetivo2 palabras)
+
+//Alma - YO
+printfn "%A" (prof objetivo3 palabras)
+
+//Tel
+printfn "%A" (prof objetivo4 palabras)
+
+
+// let OMG1 = ['T';'E';'L']
+// let OMG2 = [(0, 3); (1, 2); (2, 1)]
+// printfn "%b" (verificarPalabra OMG1 OMG2 palabras)
