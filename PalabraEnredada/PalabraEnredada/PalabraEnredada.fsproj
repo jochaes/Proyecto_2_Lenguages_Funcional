@@ -11,11 +11,11 @@
     <PackageReference Include="Fabulous.XamarinForms" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.fs" />
     <Compile Include="Strings.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="ChooseWords.fs" />
+    <Compile Include="App.fs" />
   </ItemGroup>
 </Project>
