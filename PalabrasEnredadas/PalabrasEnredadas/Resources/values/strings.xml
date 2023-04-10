@@ -2,5 +2,14 @@
 <resources>
     <string name="hello">Hello World, Click Me!</string>
     <string name="app_name">PalabrasEnredadas</string>
-    <string name="textview1">TextView1</string>
+
+    <!--/ Choose Words Page /-->
+    <string name="ChooseWords_Title">Puede agregar cantidad palabras</string>
+    <string name="ChooseWords_Words">Palabra,Palabra</string>
+    <string name="ChooseWords_SearchBarTitle">Ingresar Palabra</string>
+    <string name="ChooseWords_Hint">CASA</string>
+    
+
+    
+    
 </resources>

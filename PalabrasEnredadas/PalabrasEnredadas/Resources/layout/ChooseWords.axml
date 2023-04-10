@@ -1,17 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@android:color/white"
     >
-    <TextView
-        android:id="@+id/textView1"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:layout_height="100px"
-        android:layout_width="match_parent"
-        android:text="@string/textview1"
+	<TextView
+		android:id="@+id/cw_title_tv"
+		android:textColor="@android:color/black"
+		android:gravity="center"
+		android:layout_height="100px"
+		android:layout_width="match_parent"
+		android:text="@string/ChooseWords_Title"
         />
-        
+
+	<Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"/>
+
+	<TextView
+		android:id="@+id/cw_words_tv"
+		android:textColor="@android:color/darker_gray"
+		android:gravity="center_vertical"
+		android:layout_width="match_parent"
+		android:layout_height="100px"
+		android:text="@string/ChooseWords_Words"
+		/>
+
+	<EditText
+		android:id="@+id/cw_wordsInput_et"
+		android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+		android:hint="@string/ChooseWords_Hint"
+		android:background="@android:color/darker_gray"
+		/>
 </LinearLayout>
 

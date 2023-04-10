@@ -17,18 +17,48 @@ open Android.Widget
 type ChooseWordsActivity() =
   inherit Activity()
 
+  let mutable fromMain: string  = ""
+  let mutable words: string = ""
+  let mutable wordList : string list = []
+
   override x.OnCreate(bundle) =
     base.OnCreate (bundle)
+
     // Create your application here
-    let mutable greet: string  = ""
-
-
     x.SetContentView (Resources2.Layout.ChooseWords)
 
-    greet <- x.Intent.GetStringExtra("Greeting")
+    //Recibe un valor de main
+    fromMain <- x.Intent.GetStringExtra("Greeting")
 
-    let label = x.FindViewById<TextView>(Resources.Id.textView1)
-    label.Text <- greet
+    //Componentes
+    let title_tv = x.FindViewById<TextView>(Resources2.Id.cw_title_tv)
+
+    let words_tv = x.FindViewById<TextView>(Resources2.Id.cw_words_tv)
+
+    let wordsInput_et = x.FindViewById<EditText>(Resources2.Id.cw_wordsInput_et)
+
+    wordsInput_et.EditorAction.Add (
+        fun args ->
+            
+            args.Handled <- false
+            if args.ActionId = InputMethods.ImeAction.Done then
+               args.Handled <- true
+               wordList <- List.append wordList [wordsInput_et.Text]
+               words <- words + wordsInput_et.Text + ", "
+               words_tv.Text <- words
+               
+               printfn "Palabra Nueva: %s" wordsInput_et.Text
+               printfn "Las Palabras son: %A" wordList
+               
+               wordsInput_et.Text <- ""
+    )
+
+       
+
+
+    
+
+
     
     
 
