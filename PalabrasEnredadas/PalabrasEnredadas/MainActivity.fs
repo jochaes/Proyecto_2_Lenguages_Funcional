@@ -8,13 +8,15 @@ open Android.OS
 open Android.Runtime
 open Android.Views
 open Android.Widget
+open Newtonsoft.Json
 
+open Models
 
 [<Activity (Label = "PalabrasEnredadas", MainLauncher = true, Icon = "@mipmap/icon")>]
 type MainActivity () =
     inherit Activity ()
 
-    let mutable count:int = 1
+    
 
     override this.OnCreate (bundle) =
 
@@ -24,17 +26,17 @@ type MainActivity () =
         
         this.SetContentView (Resources.Layout.Main)
 
-        let var =
-            "hola"
+        let var : GreetingModel = {greeting = "Hola"}
+            
 
         // Get our button from the layout resource, and attach an event to it
         let button = this.FindViewById<Button>(Resources.Id.myButton)
         button.Click.Add (fun args -> 
-            button.Text <- sprintf "%d clicks!" count
-            count <- count + 1
+            //button.Text <- sprintf "%d clicks!" count
+            //count <- count + 1
 
             let intent = new Intent(this, typedefof<ChooseWordsActivity>)
-            intent.PutExtra("Greeting", var)|> ignore
+            intent.PutExtra("Greeting", JsonConvert.SerializeObject(var))|> ignore
             this.StartActivity(intent)
         )
 

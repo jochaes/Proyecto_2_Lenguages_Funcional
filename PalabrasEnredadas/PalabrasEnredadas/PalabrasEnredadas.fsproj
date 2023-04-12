@@ -50,6 +50,9 @@
     <Reference Include="Xamarin.Android.FSharp.ResourceProvider.Runtime">
       <HintPath>..\packages\Xamarin.Android.FSharp.ResourceProvider.1.0.0.28\lib\monoandroid81\Xamarin.Android.FSharp.ResourceProvider.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -68,11 +71,18 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\Game.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="GameActivity.fs" />
     <Compile Include="ChooseWordsActivity.fs" />
     <Compile Include="MainActivity.fs" />
+    
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AboutAssets.txt" />

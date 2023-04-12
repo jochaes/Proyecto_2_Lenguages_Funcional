@@ -7,9 +7,12 @@
     <string name="ChooseWords_Title">Puede agregar cantidad palabras</string>
     <string name="ChooseWords_Words">Palabra,Palabra</string>
     <string name="ChooseWords_SearchBarTitle">Ingresar Palabra</string>
+    <string name="ChooseWords_StartButton">Iniciar Juego</string>
+
     <string name="ChooseWords_Hint">CASA</string>
     
-
+    <!--Game Page-->
+    <string name="GameTest">Aqui el JUEGO</string>
     
     
 </resources>

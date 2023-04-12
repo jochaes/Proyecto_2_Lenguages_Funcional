@@ -7,6 +7,7 @@ open Android.App
 // the name of the type here needs to match the name inside the ResourceDesigner attribute
 type Resources = PalabrasEnredadas.Resource
 type Resources2 = PalabrasEnredadas.Resource
+type Resources3 = PalabrasEnredadas.Resource
 
 [<assembly: Android.Runtime.ResourceDesigner("PalabrasEnredadas.Resources", IsApplication=true)>]
 

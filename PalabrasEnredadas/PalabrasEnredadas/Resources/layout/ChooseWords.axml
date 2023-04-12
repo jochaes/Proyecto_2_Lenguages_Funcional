@@ -36,5 +36,14 @@
 		android:hint="@string/ChooseWords_Hint"
 		android:background="@android:color/darker_gray"
 		/>
+	<Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"/>
+	<Button
+		android:id="@+id/cw_StartGame_btn"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+		android:text="@string/ChooseWords_StartButton"/>
+		
 </LinearLayout>
 

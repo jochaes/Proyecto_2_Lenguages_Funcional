@@ -44,17 +44,23 @@ namespace PalabrasEnredadas
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7F010000
-			public const int cw_title_tv = 2130771968;
-			
 			// aapt resource value: 0x7F010001
-			public const int cw_wordsInput_et = 2130771969;
+			public const int cw_StartGame_btn = 2130771969;
 			
 			// aapt resource value: 0x7F010002
-			public const int cw_words_tv = 2130771970;
+			public const int cw_title_tv = 2130771970;
 			
 			// aapt resource value: 0x7F010003
-			public const int myButton = 2130771971;
+			public const int cw_wordsInput_et = 2130771971;
+			
+			// aapt resource value: 0x7F010004
+			public const int cw_words_tv = 2130771972;
+			
+			// aapt resource value: 0x7F010005
+			public const int myButton = 2130771973;
+			
+			// aapt resource value: 0x7F010000
+			public const int PruebaTexto = 2130771968;
 			
 			static Id()
 			{
@@ -73,7 +79,10 @@ namespace PalabrasEnredadas
 			public const int ChooseWords = 2130837504;
 			
 			// aapt resource value: 0x7F020001
-			public const int Main = 2130837505;
+			public const int Game = 2130837505;
+			
+			// aapt resource value: 0x7F020002
+			public const int Main = 2130837506;
 			
 			static Layout()
 			{
@@ -104,8 +113,8 @@ namespace PalabrasEnredadas
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7F040004
-			public const int app_name = 2130968580;
+			// aapt resource value: 0x7F040006
+			public const int app_name = 2130968582;
 			
 			// aapt resource value: 0x7F040000
 			public const int ChooseWords_Hint = 2130968576;
@@ -114,13 +123,19 @@ namespace PalabrasEnredadas
 			public const int ChooseWords_SearchBarTitle = 2130968577;
 			
 			// aapt resource value: 0x7F040002
-			public const int ChooseWords_Title = 2130968578;
+			public const int ChooseWords_StartButton = 2130968578;
 			
 			// aapt resource value: 0x7F040003
-			public const int ChooseWords_Words = 2130968579;
+			public const int ChooseWords_Title = 2130968579;
+			
+			// aapt resource value: 0x7F040004
+			public const int ChooseWords_Words = 2130968580;
 			
 			// aapt resource value: 0x7F040005
-			public const int hello = 2130968581;
+			public const int GameTest = 2130968581;
+			
+			// aapt resource value: 0x7F040007
+			public const int hello = 2130968583;
 			
 			static String()
 			{
