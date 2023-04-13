@@ -13,5 +13,16 @@
         android:gravity="center"
         />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"/>
+
+    <TableLayout
+        android:id="@+id/GameMatrix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"/>
+        
+  
 </LinearLayout>
 

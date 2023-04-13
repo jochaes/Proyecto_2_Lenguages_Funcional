@@ -44,23 +44,26 @@ namespace PalabrasEnredadas
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7F010001
-			public const int cw_StartGame_btn = 2130771969;
-			
 			// aapt resource value: 0x7F010002
-			public const int cw_title_tv = 2130771970;
+			public const int cw_StartGame_btn = 2130771970;
 			
 			// aapt resource value: 0x7F010003
-			public const int cw_wordsInput_et = 2130771971;
+			public const int cw_title_tv = 2130771971;
 			
 			// aapt resource value: 0x7F010004
-			public const int cw_words_tv = 2130771972;
+			public const int cw_wordsInput_et = 2130771972;
 			
 			// aapt resource value: 0x7F010005
-			public const int myButton = 2130771973;
+			public const int cw_words_tv = 2130771973;
 			
 			// aapt resource value: 0x7F010000
-			public const int PruebaTexto = 2130771968;
+			public const int GameMatrix = 2130771968;
+			
+			// aapt resource value: 0x7F010006
+			public const int myButton = 2130771974;
+			
+			// aapt resource value: 0x7F010001
+			public const int PruebaTexto = 2130771969;
 			
 			static Id()
 			{
