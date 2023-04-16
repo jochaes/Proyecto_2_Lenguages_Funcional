@@ -44,26 +44,32 @@ namespace PalabrasEnredadas
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7F010002
-			public const int cw_StartGame_btn = 2130771970;
-			
-			// aapt resource value: 0x7F010003
-			public const int cw_title_tv = 2130771971;
-			
-			// aapt resource value: 0x7F010004
-			public const int cw_wordsInput_et = 2130771972;
-			
-			// aapt resource value: 0x7F010005
-			public const int cw_words_tv = 2130771973;
-			
 			// aapt resource value: 0x7F010000
-			public const int GameMatrix = 2130771968;
-			
-			// aapt resource value: 0x7F010006
-			public const int myButton = 2130771974;
+			public const int cw_StartGame_btn = 2130771968;
 			
 			// aapt resource value: 0x7F010001
-			public const int PruebaTexto = 2130771969;
+			public const int cw_title_tv = 2130771969;
+			
+			// aapt resource value: 0x7F010002
+			public const int cw_wordsInput_et = 2130771970;
+			
+			// aapt resource value: 0x7F010003
+			public const int cw_words_lv = 2130771971;
+			
+			// aapt resource value: 0x7F010006
+			public const int g_allWords_tv = 2130771974;
+			
+			// aapt resource value: 0x7F010004
+			public const int g_Matrix_tl = 2130771972;
+			
+			// aapt resource value: 0x7F010005
+			public const int g_Solve_btn = 2130771973;
+			
+			// aapt resource value: 0x7F010008
+			public const int myButton = 2130771976;
+			
+			// aapt resource value: 0x7F010007
+			public const int m_title_tv = 2130771975;
 			
 			static Id()
 			{
@@ -116,8 +122,8 @@ namespace PalabrasEnredadas
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7F040006
-			public const int app_name = 2130968582;
+			// aapt resource value: 0x7F040008
+			public const int app_name = 2130968584;
 			
 			// aapt resource value: 0x7F040000
 			public const int ChooseWords_Hint = 2130968576;
@@ -137,8 +143,14 @@ namespace PalabrasEnredadas
 			// aapt resource value: 0x7F040005
 			public const int GameTest = 2130968581;
 			
+			// aapt resource value: 0x7F040006
+			public const int Game_Solve_Button = 2130968582;
+			
+			// aapt resource value: 0x7F040009
+			public const int hello = 2130968585;
+			
 			// aapt resource value: 0x7F040007
-			public const int hello = 2130968583;
+			public const int Main_StartGame_Btn = 2130968583;
 			
 			static String()
 			{

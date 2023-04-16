@@ -5,23 +5,39 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:id="@+id/PruebaTexto"
+    
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="100px"
+        android:layout_gravity="center_vertical"
+
+       >
+
+        <TextView
+        android:id="@+id/g_allWords_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/GameTest"
         android:gravity="center"
+        android:scrollHorizontally="true"
+        android:maxLines="1"
         />
+    </HorizontalScrollView>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50px"/>
+    
+
+
 
     <TableLayout
-        android:id="@+id/GameMatrix"
+        android:id="@+id/g_Matrix_tl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*"/>
+
+    <Button
+        android:id="@+id/g_Solve_btn"
+        android:layout_width="match_parent"
+        android:layout_height="100px"/>
         
   
 </LinearLayout>
