@@ -22,10 +22,52 @@ type GameActivity() =
     //Variables
     let mutable fromChooseWords: string = ""
     let mutable wordList : GameModel = {words = [""]}
+
+    //Lista de letras que el usuario va presionando 
+    let mutable letterList : char list = []
+    //Posiicones de las letras que el usuario va presionando
+    let mutable letterPositions : (int*int) list = []
+
+    
+
+
     //Functions
 
-    //Crea la matriz del Juego
-    let addMatrixToTable (matrix: char list list) ( tableLayout: TableLayout) =
+    let updateWordsTextView (wordsList: string list) (textView: TextView) =
+        textView.Text <- ""
+        List.iter (fun x -> textView.Text <- textView.Text + " - " + x) wordsList
+
+
+
+    let tableAux (position: (int* int)) (letter: char) (gameMatrix: TableLayout) (wordsTextView: TextView) (context)=
+
+
+      
+        letterList <- List.append letterList [letter]
+        letterPositions <- List.append letterPositions [position]
+
+        printfn "************************************"
+        printfn "Vamos a revizar: letra(%A) posicion(%A)" letter position
+
+        checkWord &wordList.words &letterList &letterPositions gameMatrix |> ignore
+        updateWordsTextView wordList.words  wordsTextView
+
+        //if not(checkWord &wordList.words &letterList &letterPositions gameMatrix) then
+        //    printfn "Oooops, estaba mala, borrando todo XD"
+        //    letterList <- []
+        //    letterPositions <- []
+        //else
+        //    wordList.words <- deleteWord ( System.String(letterList |> List.toArray) ) wordList.words
+        //    updateWordsTextView wordList.words  wordsTextView
+        printfn "************************************"
+
+        if wordList.words = [] then Models.showAlertAsync "Juego Terminado" "Ha Ganado el Juego" context
+
+
+
+
+    //Crea la matriz del Juego dinamicamente
+    let addMatrixToTable (matrix: char list list) ( tableLayout: TableLayout) (wordsTextView:TextView) (context)=
         
         //let numRows = matrix.GetLength(0)
         //let numCols = matrix.GetLength(1)
@@ -50,7 +92,10 @@ type GameActivity() =
     
 
                 tableCell.Click.Add( fun args ->
+                    
                     tableCell.SetBackgroundColor(Android.Graphics.Color.Blue)
+                    tableAux (numRows, col) cellValue tableLayout wordsTextView context
+
                 )
 
                 tableRow.AddView(tableCell)
@@ -64,7 +109,8 @@ type GameActivity() =
         // Create your application here
         x.SetContentView(Resources3.Layout.Game)
         x.ActionBar.Hide()
-        //ActionBarNavigationMode.SetHasNavigationBar(x, false);
+
+        
 
         //Recibe un valor de Choose Game
         wordList <- JsonConvert.DeserializeObject<GameModel>(x.Intent.GetStringExtra("GameModel"))
@@ -74,22 +120,28 @@ type GameActivity() =
         let words_tv = x.FindViewById<TextView>(Resources3.Id.g_allWords_tv) 
         let gameMatrix = x.FindViewById<TableLayout>(Resources3.Id.g_Matrix_tl)
         let solve_Btn = x.FindViewById<Button>(Resources3.Id.g_Solve_btn)
+
         //Llene el Text View con las palabras
-        words_tv.Text <- ""
-        List.iter (fun x -> words_tv.Text <- words_tv.Text + " - " + x) wordList.words
+        updateWordsTextView wordList.words words_tv
 
 
         //Actions
 
         //Agrega una matriz de 10x10 con las palabras elegidas por el usuario 
         let matrix = generateWordSearch wordList.words 10 |> Array2D.toListofLists
-        addMatrixToTable matrix gameMatrix
+        addMatrixToTable matrix gameMatrix words_tv x
 
         //Ejecuta la funcionalidad de resolver Palabras Enredadas
+
         
         //let context = x.Application.ApplicationContext
-        solve_Btn.Click.Add( fun _ -> (Models.showAlert "hola" "adios" x)  )
+        solve_Btn.Click.Add( fun _ ->
+            printfn "BOTON CLICKEADO INICIANDO "
+            solvePalabrasEnredadas matrix &wordList.words gameMatrix
 
+            updateWordsTextView wordList.words  words_tv
+            if wordList.words = [] then Models.showAlertAsync "Juego Terminado" "Ha Ganado el Juego" x
+        )
 
         //Cambiar el color de la celda [0,1]
         //let fila =  gameMatrix.GetChildAt(0) :?> TableRow

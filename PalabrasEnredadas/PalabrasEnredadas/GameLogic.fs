@@ -3,7 +3,10 @@
 
 open System
 open Models
-
+open Android.Views
+open Android.Widget
+open Android.Graphics
+open System.Threading.Tasks
 
 
 
@@ -257,20 +260,108 @@ module GameLogic =
     // **************************************************************** Utilitarias ****************************************************************
 
 
+    //Reviza si las letras que el usaurio ha elegido se encuentran en alguna palabra
+    let rec allCharsInWords letters words =
+      match letters with
+      | [] -> true
+      | h::t -> 
+          words |> List.exists (fun (w:string) -> w.Contains(h.ToString())) && allCharsInWords t words
     
+    //Se encarga de revizar sio dos palabras son iguales
+    let  wordExists(gameWord: _ list) (playerWord: _ list)  =
+      let A = List.sort gameWord
+      let B = List.sort playerWord
+      if A.Length = B.Length then (List.forall2 (fun elem1 elem2 -> elem1 = elem2) A B)
+      else
+        false
 
+
+    let colorTrail (positions: (int * int) list) (gameMatrix: TableLayout) ( color: Android.Graphics.Color ) =
+        //let mutable color = Android.Graphics.Color.Brown
+        //match state with
+        //| "correct" -> color   <- Android.Graphics.Color.Green
+        //| "incorrect" -> color <- Android.Graphics.Color.White
+        //| "ok" -> color <- Android.Graphics.Color.White
+        //| _ -> printfn "Incorrect Option"
+
+        List.iter (fun x ->
+            let (fila:TableRow) =  gameMatrix.GetChildAt( fst(x) ):?> TableRow
+            let (celda:TextView) = fila.GetChildAt( snd(x) ) :?> TextView
+            celda.SetBackgroundColor(color)
+        ) positions
+
+    //Borra una palabra de una lista de palabras
+    //Esto para borrar la palabra cuando la encuentra
+    let rec deleteWord (word:string) (wordList: string list) =
+        match wordList with
+        | [] -> []
+        | h::t when (Seq.sort h).ToString() = (Seq.sort word).ToString() -> t
+        | h::t -> h :: deleteWord word t
+
+    //Se encarga de revizar que la palabra que el usuario digitó se encuentra en la lista de letras
+    //Cambia el color de las letras de la matriz segun corresponda
+    let checkWord (words: byref<string list>) (letters: byref<char list>) (positions:byref< (int * int) list>) (gameMatrix: TableLayout) =
+      printfn "Comparando las letras: %A" letters
+      printfn "Posiciones: %A" positions
+      printfn "Para ver si existen en: %A" words
+      let lettersAux = letters
+      let wordsAux = words
+
+      //Si las letras existen en alguna palabra
+      if (allCharsInWords lettersAux wordsAux) then
+        //Reviza si esa letras conforman una palabra, si ya alcanzó el length
+        if List.exists (fun (word:string) -> (wordExists lettersAux (Seq.toList word))) wordsAux then
+          printfn "Palabra Adivinada - los pinta de verde"
+          colorTrail positions gameMatrix Android.Graphics.Color.Green
+          //let sinPalabra = deleteWord (System.String(lettersAux |> List.toArray)) wordsAux
+          printfn "Sin Palabra "
+          words       <- deleteWord (System.String(lettersAux |> List.toArray)) wordsAux //Elimina la palabra de la lista
+          letters     <- []                                                              //Elimina las letras 
+          positions   <- []                                                              //Elimina las posiciones
+          true
+        else
+          printfn "Siga adivinando la palabra - Los deja en azul"
+          true
+      else 
+        printfn "Palabra Incorrecta - los pinta de nuevo de blanco"
+        colorTrail positions gameMatrix Android.Graphics.Color.White//Cambia al color original 
+        letters   <- []                                             //Elimina las letras 
+        positions <- []                                             //Elimina las posiciones
+        false
+
+
+    //FUNCION QUE RESUELVE PALABRAS ENREDADAS AUTOMATICAMENTE
+    let solvePalabrasEnredadas (gameMatrix: char list list) (wordList: byref<string list>) (gameTableMatrix: TableLayout) =
+        printfn"Iniciando proceso de resolver"
+
+        for element in wordList do
+            let mutable wordListaux = wordList
+            let mutable goal = ( stringToCharList element )
+            let mutable solution = [] 
+            try
+                solution <- prof  goal gameMatrix
+                wordList <- deleteWord (System.String( goal |> List.toArray)) wordListaux
+                colorTrail solution gameTableMatrix Android.Graphics.Color.Purple
+            with
+            | :? System.IndexOutOfRangeException -> printfn "No se encontro la palabra"
+            | :? System.ArgumentException -> printfn "The index was outside the range of elements in the list."
+
+            
+
+
+
+
+
+    // printfn "%b" (allCharsInWords ['a'; 'b';'d';'c'] ["hello"; "abdc"] )
+    
+    // printfn "%b" (verificarPalabra ['a'; 'c';'b';'d'] (Seq.toList "abcd") )
+   
     //let words = ["ALMA"; "PATIO"; "CASA";"TELEFONO"; "COCHE";"ALAJUELA";"LAGO"]
     //let matrix = generateWordSearch words 10 |> Array2D.toListofLists
     //printfn "%A" matrix
 
 
-    //// try
-    ////     let solution = prof ( stringToCharList "ALAJUELA" ) matrix
-    ////     printfn "%A" solution
-    //// with
-    ////     | :? System.IndexOutOfRangeException -> printfn "No se encontro la palabra"
-    ////     | :? System.ArgumentException -> printfn "The index was outside the range of elements in the list."
-
+    
     //let solution = prof ( stringToCharList "ALAJUELA" ) matrix
     //printfn "%A" solution
 

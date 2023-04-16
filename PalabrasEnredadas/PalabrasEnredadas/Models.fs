@@ -25,17 +25,17 @@ module Models =
     //Muestra un mensaje en pantalla y devuelve true o false
     //let context = Android.App.Application.Context
 
-    let showAlert (title: string) (message: string) (context) =
+    let showAlertAsync (title: string) (message: string) (context)  =
+        
         let builder = new AlertDialog.Builder(context)
         builder.SetTitle(title) |> ignore
         builder.SetMessage(message) |>ignore
         builder.SetCancelable(false) |>ignore
-        builder.SetPositiveButton("OK", (fun dialog _ -> printfn "Ok %A" dialog )) |>ignore
-        builder.SetNegativeButton("Cancel", (fun dialog _ -> printfn "Nope %A" dialog )) |>ignore
+        builder.SetPositiveButton("OK", (fun dialog _ -> printfn "OKOKOK" )) |>ignore
         let alert = builder.Create()
         alert.Show() |> ignore
-        
-       
+
+     
 
 
 
