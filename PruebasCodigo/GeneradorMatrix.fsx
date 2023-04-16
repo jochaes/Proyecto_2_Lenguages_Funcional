@@ -37,3 +37,8 @@ let words = ["ALMA"; "PATIO"; "CASA";"TELEFONO"]
 let matrix = generateWordSearch words
 printfn "%A" matrix
 
+
+
+//Length of matrix
+let length = matrix.GetLength(0)
+
