@@ -6,27 +6,24 @@
 	android:layout_height="match_parent"
 	android:background="@android:color/white"
     >
+
 	<TextView
 		android:id="@+id/cw_title_tv"
 		android:textColor="@android:color/black"
 		android:gravity="center"
-		android:layout_height="100px"
+		android:layout_height="80px"
 		android:layout_width="match_parent"
 		android:text="@string/ChooseWords_Title"
         />
 
-	<Space
+	<ListView
+		android:id="@+id/cw_words_lv"
         android:layout_width="match_parent"
-        android:layout_height="50px"/>
-
-	<TextView
-		android:id="@+id/cw_words_tv"
-		android:textColor="@android:color/darker_gray"
-		android:gravity="center_vertical"
-		android:layout_width="match_parent"
-		android:layout_height="100px"
-		android:text="@string/ChooseWords_Words"
-		/>
+        android:layout_height="300px"
+		android:textAlignment="center"
+		android:background="@android:color/darker_gray"
+		android:textColor="@android:color/black"
+	/>
 
 	<EditText
 		android:id="@+id/cw_wordsInput_et"
@@ -35,10 +32,10 @@
         android:layout_height="100px"
 		android:hint="@string/ChooseWords_Hint"
 		android:background="@android:color/darker_gray"
+		android:gravity="center"
+		android:layout_marginTop="20px"
 		/>
-	<Space
-        android:layout_width="match_parent"
-        android:layout_height="50px"/>
+	
 	<Button
 		android:id="@+id/cw_StartGame_btn"
         android:layout_width="match_parent"

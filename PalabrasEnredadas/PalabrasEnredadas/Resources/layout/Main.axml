@@ -3,12 +3,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     >
-<Button  
-    android:id="@+id/myButton"
-    android:layout_width="match_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
+
+    <TextView
+
+        android:id="@+id/m_title_tv"
+        android:text="@string/app_name"
+        android:layout_marginTop="100px"
+        android:layout_height="100px"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="32dip"
+        />
+
+	<Button
+		android:id="@+id/myButton"
+		android:layout_width="wrap_content"
+		android:layout_height="100px"
+		android:text="@string/Main_StartGame_Btn"
+        android:layout_marginTop="400px"
+        android:gravity="center"
     />
 </LinearLayout>
 

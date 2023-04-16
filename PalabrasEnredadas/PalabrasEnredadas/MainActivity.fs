@@ -25,7 +25,7 @@ type MainActivity () =
         // Set our view from the "main" layout resource
         
         this.SetContentView (Resources.Layout.Main)
-
+        this.ActionBar.Hide()
         let var : GreetingModel = {greeting = "Hola"}
             
 

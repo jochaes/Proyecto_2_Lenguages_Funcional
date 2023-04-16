@@ -186,7 +186,7 @@ let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matr
 
     //Si rutas es vacio entonces busca otra posicion de inicio
     if rutas = [] then
-        //printfn "No hay mas rutas"
+        printfn "Origin: (%d,%d)" (fst(origin)) (snd(origin))
         if snd(origin) < matrix[0].Length then
                     prof_aux [[findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix]]
                         (findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix)

@@ -1,18 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Main Page-->
+    <string name="Main_StartGame_Btn">Jugar</string>
     <string name="hello">Hello World, Click Me!</string>
-    <string name="app_name">PalabrasEnredadas</string>
+    <string name="app_name">Palabras Enredadas</string>
 
     <!--/ Choose Words Page /-->
-    <string name="ChooseWords_Title">Puede agregar cantidad palabras</string>
+    <string name="ChooseWords_Title">Agregue las palabras</string>
     <string name="ChooseWords_Words">Palabra,Palabra</string>
     <string name="ChooseWords_SearchBarTitle">Ingresar Palabra</string>
     <string name="ChooseWords_StartButton">Iniciar Juego</string>
 
-    <string name="ChooseWords_Hint">CASA</string>
+    <string name="ChooseWords_Hint">escribir palabra...</string>
     
     <!--Game Page-->
     <string name="GameTest">Aqui el JUEGO</string>
+    <string name="Game_Solve_Button">Resolver</string>
+    
     
     
 </resources>

@@ -77,12 +77,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.fs" />
+    <Compile Include="Properties\AssemblyInfo.fs" />	
     <Compile Include="Models.fs" />
+    <Compile Include="GameLogic.fs" />
     <Compile Include="GameActivity.fs" />
     <Compile Include="ChooseWordsActivity.fs" />
     <Compile Include="MainActivity.fs" />
-    
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AboutAssets.txt" />
