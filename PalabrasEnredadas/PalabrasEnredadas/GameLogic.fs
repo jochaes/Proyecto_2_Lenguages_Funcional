@@ -328,7 +328,7 @@ module GameLogic =
       | h::t -> 
           words |> List.exists (fun (w:string) -> w.Contains(h.ToString())) && allCharsInWords t words
     
-    //Se encarga de revizar sio dos palabras son iguales
+    //Se encarga de revizar si dos palabras son iguales
     (*
         Esta función reviza si dos palabras son iguales,
         esto porque el usuairo puede elegir las palabras al azar,
@@ -357,8 +357,6 @@ module GameLogic =
         let (celda:TextView) = fila.GetChildAt( snd(position) ) :?> TextView
         celda.SetBackgroundColor(color)
 
-    
-
     (*
         Colorea una secuencia de posiciones de un colos especifico
         positions: Lista de posiciones
@@ -378,8 +376,6 @@ module GameLogic =
             colorCell x gameMatrix color
         ) positions
 
-
-
     (*
         Estas 2 funciones se encargan de elimnar la palabra que ya se encomntró de la list de palabras
         listEqual: Verifica que 2 listas sean iguales
@@ -391,8 +387,6 @@ module GameLogic =
       let removeStr = List.sort ( word.ToCharArray() |> List.ofArray ) 
       //wordList |> List.filter (fun (s:string) ->  List.sort ( s.ToCharArray() |> List.ofArray ) <> removeStr)
       wordList |> List.filter ( fun (s:string) -> not (listEqual (List.sort ( s.ToCharArray() |> List.ofArray ) ) removeStr ))
-
-
     
     (*
         Se encarga de revizar que la palabra que el usuario digitó se encuentra en la lista de letras

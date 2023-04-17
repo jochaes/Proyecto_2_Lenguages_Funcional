@@ -29,9 +29,6 @@ type GameActivity() =
     //Posiicones de las letras que el usuario va presionando
     let mutable letterPositions : (int*int) list = []
 
-    
-
-
     //Funciones
     (*
         Actualiza el TextView que indica las letras que faltan por encontrar
@@ -54,10 +51,9 @@ type GameActivity() =
         printfn "Vamos a revizar: letra(%A) posicion(%A)" letter position
 
         checkWord &wordList.words &letterList &letterPositions gameMatrix context |> ignore //Reviza la palabra 
-        updateWordsTextView wordList.words  wordsTextView                           //Actualiza el TV que muestra las palabras restantes
+        updateWordsTextView wordList.words  wordsTextView                                   //Actualiza el TV que muestra las palabras restantes
 
         //if not(checkWord &wordList.words &letterList &letterPositions gameMatrix) then
-        //    printfn "Oooops, estaba mala, borrando todo XD"
         //    letterList <- []
         //    letterPositions <- []
         //else
@@ -152,12 +148,10 @@ type GameActivity() =
         let matrix = generateWordSearch wordList.words 10 |> Array2D.toListofLists
         addMatrixToTable matrix gameMatrix words_tv x
 
-       
 
-        
         //Ejecuta la funcionalidad de resolver Palabras Enredadas
         solve_Btn.Click.Add( fun _ ->
-            printfn "BOTON CLICKEADO INICIANDO "
+            printfn "BOTON INICIANDO "
             solvePalabrasEnredadas matrix &wordList.words gameMatrix
 
             updateWordsTextView wordList.words  words_tv
