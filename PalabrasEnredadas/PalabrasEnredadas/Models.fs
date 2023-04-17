@@ -7,11 +7,12 @@ open Android.Widget
 
 
 
-//Models and aux functionality 
+//Modelos que utiliza la palicación 
 module Models =
 
     
-    //Mensaje de Saludo desde Main Activity to Choose Words 
+    //Mensaje de Saludo desde Main Activity to Choose Words
+    //Parta probar en envío de datos entre actividades
     type GreetingModel = {
         mutable greeting: string
     }
@@ -21,10 +22,12 @@ module Models =
         mutable words: string list
     }
 
-
-    //Muestra un mensaje en pantalla y devuelve true o false
-    //let context = Android.App.Application.Context
-
+    (*
+        Muestra un mensaje en la pantalla
+        title: Titulo del mensaje
+        message:
+        context: El activity desde donde se está creando
+    *)
     let showAlertAsync (title: string) (message: string) (context)  =
         
         let builder = new AlertDialog.Builder(context)

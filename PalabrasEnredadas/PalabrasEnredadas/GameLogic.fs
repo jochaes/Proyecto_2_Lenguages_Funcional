@@ -7,7 +7,7 @@ open Android.Views
 open Android.Widget
 open Android.Graphics
 open System.Threading.Tasks
-
+open System
 
 
 module GameLogic =
@@ -20,7 +20,30 @@ module GameLogic =
         let toListofLists (arr2d: 'a [,]) =
             [ yield! [arr2d.GetLowerBound(0)..arr2d.GetUpperBound(0)] |> List.map(fun i -> arr2d.[i,*] |> List.ofArray) ]
 
-    //Genera una matriz de NxN con N=gridSize con las palabras que se le pasan como parámetro
+    //Función Generada por ChatGPT
+    (*
+        Función que se encarga de generar una matriz de Sopa de Letras NxN con un conjunto de palabras
+        words: La lista de palabras que van a estar en la sopa de letras
+        gridSize: El tamaño de la matriz
+
+        Esta función fue generada por ChatGpt, cómo respuest de la siguiente solicitud:
+
+        I need an F# function that can generate a word search matrix, given a set of different length words
+
+        Chat:
+        Here's an explanation of how this function works:
+        
+        The function takes a list of words as input.
+        The function creates an empty 20x20 word search matrix using Array2D.create.
+        The function defines a tryPlaceWord function that attempts to place a word on the matrix in a random position and direction.
+        The function then loops through the list of words, calling tryPlaceWord for each word.
+        After placing all the words, the function fills in the remaining spaces in the matrix with random letters.
+
+        Finally, the function returns the completed matrix.
+        Note that this function places words randomly on the matrix, so you may get different results each time you run it with the same input list.
+        You can adjust the gridSize parameter to create larger or smaller word search matrices.
+
+    *)
     let generateWordSearch (words: string list) (gridSize: int) =
         let rand = System.Random()
         let directionVectors = [(0, 1); (1, 0); (1, 1); (0, -1); (-1, 0); (-1, -1); (-1, 1); (1, -1)]
@@ -55,7 +78,13 @@ module GameLogic =
         matrix
 
 
-    //Busca la palabra más larga para generar la matriz
+    (*
+        No está en uso, la matriz siempre es de 10x10 para que se vea bien en movil
+
+        Toma una lista de estrings y retorna el size de la palabra más larga
+        words: Lista de Strings con palabras que se van a agregar a la matriz
+
+    *)
     let getBiggestWordLength (words: string list) =
         let mutable biggestWordLength = 0
         for word in words do
@@ -63,26 +92,34 @@ module GameLogic =
                 biggestWordLength <- word.Length
         biggestWordLength
 
+
     //Reviza si una palabra tiene un lenght menor a un numero
+    (*
+        No está en uso
+
+        Verifica que una palabra tenga un length concreto
+        word: Palabra a verificar
+        length: Tamaño que debe tener la palabra
+    *)
     let checkWordLength (word: string) (length: int) =
         word.Length < length
 
-    //Toma un string y lo devuelve como un array de caracteres
+    (*
+        Toma un string y l ocnvierte a una sequencia
+        word: Palabra a convertir en secuencia
+    *)
     let stringToCharList (word: string) =
         Seq.toList word
 
 
     // **************************************************************** Encontrar Palabra en Matriz ****************************************************************
     (*
-        Esta función recibe un elemento e y una lista lista y 
-        devuelve un valor booleano indicando si el elemento se
-        encuentra en la lista o no. Para lograr esto, primero se 
-        mapea cada elemento de la lista a un valor booleano que 
-        indica si es igual a e. 
+        Esta funciíon verifica si un elemento concreto ya se encuentra o no
+        en una lista. 
 
-        Luego se reduce la lista de valores booleanos utilizando una 
-        función lógica OR, lo que devuelve true si se encontró el 
-        elemento e en la lista o false en caso contrario.
+        e: elemento a buscar en la lista
+        lista: lista con las diferentes "rutas"
+
     *)
     let miembro e lista =
         lista
@@ -90,13 +127,12 @@ module GameLogic =
         |> List.reduce (fun x y -> x || y)
     
     (*
-        Esta función recibe dos índices i y j, y una matriz matrix de 
-        listas de elementos del mismo tipo (en este caso, listas de caracteres). 
+        Devuelve el elemento (i,j) de la matriz,
+        Si el elemento solicitado está fuera de ij devuelve _
+        matrix: Matriz de la sopa de letras
+        i: fila
+        j: columna
 
-        Devuelve el elemento correspondiente a la posición (i,j) de la matriz, si existe. 
-
-        Si alguno de los índices es mayor o igual a la longitud de la matriz en la 
-        dimensión correspondiente, la función devuelve el carácter '_' como valor predeterminado.
     *)
     let getElement i j (matrix: char list list)=
         if matrix.Length > i then
@@ -108,19 +144,20 @@ module GameLogic =
             '_'
 
     (*
-        Esta función recibe dos índices i y j, un carácter letter y 
-        una matriz matrix de listas de caracteres. 
-        Devuelve la posición de la primera ocurrencia del carácter 
-        letter en la matriz, 
-        empezando por la posición (i,j) y avanzando horizontalmente 
-        desde izquierda a derecha y 
-        verticalmente desde arriba hacia abajo. 
-        Si no se encuentra ninguna ocurrencia del carácter, la función 
-        devuelve (-1,-1).
+        Esta funcion se encarga de buscar la primera aparición,
+        de la primera letra, de la palabra que se está buscando.
+
+        Iniciadno desde un lugar específico de la matriz.
+        Esto por que si en una instancia no encunetra la palabra,
+        debe buscar otra letra para tratar de buscar la palabra.
+
+        i: fila de inicio
+        j: columna de inicio
+        letter: Letra a buscar
+        matrix: matriz de la sopa de letras 
     *)
     let rec findFirstLetterPosition (i:int) (j:int) (letter:char) (matrix: _ list list) =    
         //printfn "Buscar Letra: (%d,%d)" i j
-
         if matrix.[i].[j] = letter then
             (i,j)
         elif (i = matrix.Length-1) && (j = matrix.[i].Length-1) then
@@ -135,42 +172,49 @@ module GameLogic =
     (*
         Esta función recibe una posición (x,y) y una matriz matrix 
         de listas de caracteres. 
-        Devuelve una lista con las posiciones de los vecinos horizontales 
+        Devuelve una lista con las posiciones de los vecinos  
         de (x,y) en la matriz.
+
+        Los vecinos van en el siguiente orden:
+        //left, upper_left_corner, up , upper_right_corner, right, lower_right_corner, down, lower_left_corner
+
+        posicion: Lugar de donde se van a sacar los vecinos
+        matrix 
+
     *)
-    let vecinos_aux (posicion: (int*int)) (matrix: _ list list) =
+    let vecinos_aux (posicion: (int*int)) =
         let i,j = fst(posicion),snd(posicion)
-        //printfn "Posicion: (%d,%d)" i j
-        //printfn  "Vecinos: %A" [(i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1); (i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1)]
+
         //left, upper_left_corner, up , upper_right_corner, right, lower_right_corner, down, lower_left_corner
         [(i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1); (i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1)]
-
-        // right, lower_right_corner, down, lower_left_corner, left, upper_left_corner, up, upper_right_corner
-        //[(i,j+1); (i+1,j+1); (i+1,j); (i+1,j-1); (i,j-1); (i-1,j-1); (i-1,j); (i-1,j+1)]
 
     (*
         Esta función recibe una posición (x,y) y una matriz matrix 
         de listas de caracteres. 
-        Devuelve una lista con las posiciones de los vecinos 
-        horizontales de (x,y) en la 
-        matriz que se encuentran dentro de los límites de la 
-        matriz.
+        Devuelve una lista con las posiciones de los vecinos de (x,y) dentro de la matrix
+
+        Filtra todos aquellos vecinos que no estéb dentro de los limites 
     *)
     let vecinos (posicion: (int*int)) (matrix: _ list list) =
-        (vecinos_aux posicion matrix)
+        (vecinos_aux posicion)
         |> List.filter (fun x -> if ((fst(x) >= 0)&&(fst(x) < matrix.Length)) && ((snd(x) < (matrix.[0].Length))&&(snd(x) >= 0)) then true else false) 
 
     (*
         Esta función recibe una lista de posiciones ruta y una 
-        matriz matrix de listas de caracteres. 
+        matriz matrix de listas de caracteres.
+
         Devuelve una lista con las extensiones de ruta, es decir, 
         las posibles posiciones a las que 
         se puede avanzar a partir de la última posición en ruta. 
         Para hacer esto, primero se obtiene la lista de vecinos de 
-        la última posición en ruta. 
+        la última posición en ruta.
+
         Luego se filtran aquellos vecinos que ya se encuentran en ruta. 
         Finalmente, se agrega cada vecino restante al inicio de ruta 
         para obtener una nueva lista de posiciones.
+
+        ruta: Ruta que se quiere extender
+        matrix: Matriz de l asopa de letras 
     *)
     let extender (ruta: _ list) (matrix: _ list list) =
         //printfn "Extender: %A" ruta
@@ -179,10 +223,11 @@ module GameLogic =
         |> List.filter (fun x -> x <> [])
 
     (*
-        Esta función recibe una posición (i,j), un carácter needed y 
-        una matriz matrix de listas de caracteres. 
         Devuelve un valor booleano indicando si el elemento en la 
-        posición (i,j) de la matriz es igual a needed.
+        posición (i,j) de la matriz es igual al que se necesita.
+        posicion: posicion a verificar
+        needed: caracter
+        matrix: matriz de la sopa de letras
     *)
     let verificarCorrespondencia (posicion:(int*int)) needed (matrix: _ list list) =
         // printfn "Needed: %A" needed
@@ -193,7 +238,16 @@ module GameLogic =
         else
             false
 
-    //Una funcion que verifique que todos los elementos de una lista de caracteres esten en otra lista de caracteres
+    
+    (*
+        Función que verifica que todos los elementode una lista de caracteres esten en otrras lisa de caracteres
+        Esto para verificar que cuando encuentre un "camino" que aparte de teber el mismo size que la palabra,
+        también sea la palabra
+
+        ListaA: Palabra
+        ListaB: "camino" secuencia de caracteres
+        matrix: matriz de la sopa de letras
+    *)
     let  verificarPalabra (listaA: _ list) (listaB: _ list)  (matrix: _ list list)=
       let A = List.sort listaA
       let B = List.sort ( List.map (fun x -> getElement (fst(x)) (snd(x)) matrix) listaB)
@@ -202,13 +256,17 @@ module GameLogic =
 
     (*
         La función prof_aux es la implementación de la búsqueda en profundidad. 
-        Toma una lista de rutas, una posición de origen, un objetivo, un índice y 
-        una matriz como entrada. 
         La función selecciona la primera ruta en la lista de rutas, la extiende y 
         agrega las nuevas rutas a la lista. 
         Si la ruta extendida alcanza el objetivo, se devuelve la ruta. 
         Si no, se selecciona la siguiente ruta en la lista y se repite el proceso. 
         Si no hay más rutas en la lista, la búsqueda falla y devuelve una lista vacía.
+
+        rutas: Lista de "rutas"
+        origin: punto inicial para buscar la palabra
+        goal: Palabra objetivo a encontrar en la matriz
+        index: indice de la letra que se está verificando en el momento
+        matrix: matriz en donde va a buscar la palabra
     *)
     let rec prof_aux (rutas: _ list list) (origin:('a*'b)) (goal:_ list) index (matrix: _ list list) =
         //printfn "\nRutas: %A" rutas
@@ -233,12 +291,6 @@ module GameLogic =
         elif (rutas.Head.Length = goal.Length) && (verificarPalabra goal rutas.Head matrix) then
             List.rev rutas.Head
 
-            (*List.append
-            ([List.rev rutas.Head])
-            (prof_aux rutas.Tail
-                 (findFirstLetterPosition (fst(origin)) (snd(origin)+1) goal[0] matrix) 
-                 goal 0 matrix)*)
-
         //Si la posicion actual es igual a la letra del objetivo entonces sigue buscando por esa ruta
         elif (verificarCorrespondencia rutas.Head.Head (goal.[index]) matrix) then
             //printfn "buscando %A" goal[(index)]
@@ -249,8 +301,11 @@ module GameLogic =
             prof_aux rutas.Tail origin goal index matrix
 
     (*
-        Finalmente, la función prof toma un objetivo y una matriz como 
-        entrada y devuelve la ruta que se encontró para ese objetivo utilizando la búsqueda en profundidad.
+        Esta función devuelve la ruta que se encontró para ese objetivo utilizando la búsqueda en profundidad.
+
+        obetivo: Lista de caracteres de la palabra a localizar en la matriz
+        matrix: Matriz en dónde va a buscar la palabra
+
     *)  
     let prof (goal:char list) (matrix: _ list list) =
         let posicionArranque = findFirstLetterPosition 0 0 goal.[0] matrix
@@ -261,6 +316,12 @@ module GameLogic =
 
 
     //Reviza si las letras que el usaurio ha elegido se encuentran en alguna palabra
+    (*
+      
+        Esta función reviza en que palabra existen las letras que el usuario ha eligido hasta el momento.
+        letters: Lista de caracteres
+        words: Lista de palabras
+    *)
     let rec allCharsInWords letters words =
       match letters with
       | [] -> true
@@ -268,6 +329,15 @@ module GameLogic =
           words |> List.exists (fun (w:string) -> w.Contains(h.ToString())) && allCharsInWords t words
     
     //Se encarga de revizar sio dos palabras son iguales
+    (*
+        Esta función reviza si dos palabras son iguales,
+        esto porque el usuairo puede elegir las palabras al azar,
+        y al comparar puede generar errores.
+
+        gameWord: Palabra del juego
+        playerWord: Palabra que ha elejido el usuario
+
+    *)
     let  wordExists(gameWord: _ list) (playerWord: _ list)  =
       let A = List.sort gameWord
       let B = List.sort playerWord
@@ -275,7 +345,27 @@ module GameLogic =
       else
         false
 
+    (*
+        Colorea una celda de un color especifico
+        position: Posicion de la celda
+        gameMatryx: Layout en donde esta la celda
+        color: color que se va a pintar
 
+    *)
+    let colorCell ( position: (int*int)) (gameMatrix: TableLayout) ( color: Android.Graphics.Color ) =
+        let (fila:TableRow) =  gameMatrix.GetChildAt( fst(position) ):?> TableRow
+        let (celda:TextView) = fila.GetChildAt( snd(position) ) :?> TextView
+        celda.SetBackgroundColor(color)
+
+    
+
+    (*
+        Colorea una secuencia de posiciones de un colos especifico
+        positions: Lista de posiciones
+        gameMatryx: Layout en donde esta la celda
+        color: color que se van a pintar
+
+    *)
     let colorTrail (positions: (int * int) list) (gameMatrix: TableLayout) ( color: Android.Graphics.Color ) =
         //let mutable color = Android.Graphics.Color.Brown
         //match state with
@@ -285,22 +375,35 @@ module GameLogic =
         //| _ -> printfn "Incorrect Option"
 
         List.iter (fun x ->
-            let (fila:TableRow) =  gameMatrix.GetChildAt( fst(x) ):?> TableRow
-            let (celda:TextView) = fila.GetChildAt( snd(x) ) :?> TextView
-            celda.SetBackgroundColor(color)
+            colorCell x gameMatrix color
         ) positions
 
-    //Borra una palabra de una lista de palabras
-    //Esto para borrar la palabra cuando la encuentra
-    let rec deleteWord (word:string) (wordList: string list) =
-        match wordList with
-        | [] -> []
-        | h::t when (Seq.sort h).ToString() = (Seq.sort word).ToString() -> t
-        | h::t -> h :: deleteWord word t
 
-    //Se encarga de revizar que la palabra que el usuario digitó se encuentra en la lista de letras
-    //Cambia el color de las letras de la matriz segun corresponda
-    let checkWord (words: byref<string list>) (letters: byref<char list>) (positions:byref< (int * int) list>) (gameMatrix: TableLayout) =
+
+    (*
+        Estas 2 funciones se encargan de elimnar la palabra que ya se encomntró de la list de palabras
+        listEqual: Verifica que 2 listas sean iguales
+        deleteWord: Recorre una lista de palabras y las compara con la palabra que debe borrar de la lista
+
+    *)
+    let listEqual list list2 = List.forall2 (fun elem1 elem2 -> elem1 = elem2) list list2 
+    let deleteWord (word : string) (wordList : string list) =
+      let removeStr = List.sort ( word.ToCharArray() |> List.ofArray ) 
+      //wordList |> List.filter (fun (s:string) ->  List.sort ( s.ToCharArray() |> List.ofArray ) <> removeStr)
+      wordList |> List.filter ( fun (s:string) -> not (listEqual (List.sort ( s.ToCharArray() |> List.ofArray ) ) removeStr ))
+
+
+    
+    (*
+        Se encarga de revizar que la palabra que el usuario digitó se encuentra en la lista de letras
+        Cambia el color de las letras de la matriz segun corresponda
+        words: Lista de palabras
+        letters: Letras que ha elegido el usuario
+        posiitons: posiciones de las letras
+        gameMatrix: Table layout de la matrix UI
+        
+    *)
+    let checkWord (words: byref<string list>) (letters: byref<char list>) (positions:byref< (int * int) list>) (gameMatrix: TableLayout) (context) =
       printfn "Comparando las letras: %A" letters
       printfn "Posiciones: %A" positions
       printfn "Para ver si existen en: %A" words
@@ -327,13 +430,25 @@ module GameLogic =
         colorTrail positions gameMatrix Android.Graphics.Color.White//Cambia al color original 
         letters   <- []                                             //Elimina las letras 
         positions <- []                                             //Elimina las posiciones
+
+        let toast = Toast.MakeText(context, "Esa palabra no existe", ToastLength.Short)
+        toast.SetGravity(GravityFlags.Center,0,0)
+        toast.Show()
         false
 
 
-    //FUNCION QUE RESUELVE PALABRAS ENREDADAS AUTOMATICAMENTE
+    
+    (*
+      FUNCION QUE RESUELVE PALABRAS ENREDADAS AUTOMATICAMENTE
+
+      gameMatrix: Matrix del juego
+      wordList: Lista de palabras que quedan de encontrar
+      gameTableMatrix: Elemento UI que se va a actualizar
+    *)
     let solvePalabrasEnredadas (gameMatrix: char list list) (wordList: byref<string list>) (gameTableMatrix: TableLayout) =
         printfn"Iniciando proceso de resolver"
 
+        //Va palabra por palabra
         for element in wordList do
             let mutable wordListaux = wordList
             let mutable goal = ( stringToCharList element )
@@ -345,25 +460,4 @@ module GameLogic =
             with
             | :? System.IndexOutOfRangeException -> printfn "No se encontro la palabra"
             | :? System.ArgumentException -> printfn "The index was outside the range of elements in the list."
-
-            
-
-
-
-
-
-    // printfn "%b" (allCharsInWords ['a'; 'b';'d';'c'] ["hello"; "abdc"] )
-    
-    // printfn "%b" (verificarPalabra ['a'; 'c';'b';'d'] (Seq.toList "abcd") )
-   
-    //let words = ["ALMA"; "PATIO"; "CASA";"TELEFONO"; "COCHE";"ALAJUELA";"LAGO"]
-    //let matrix = generateWordSearch words 10 |> Array2D.toListofLists
-    //printfn "%A" matrix
-
-
-    
-    //let solution = prof ( stringToCharList "ALAJUELA" ) matrix
-    //printfn "%A" solution
-
-
 
